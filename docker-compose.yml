@@ -1,0 +1,44 @@
+version: "3.7"
+
+services:
+  movies-api-php:
+    build:
+      context: .
+      dockerfile: ./docker/dev/php/Dockerfile
+    container_name: movies-api-php
+    volumes:
+      - .:/var/www/html/movies-api
+    working_dir: /var/www/html/movies-api
+    depends_on:
+      - movies-api-mysql
+
+  # Open http://localhost:8000 to consume api
+  movies-api-nginx:
+    image: nginx:stable-alpine
+    container_name: movies-api-nginx
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html/movies-api
+      - ./docker/dev/nginx/nginx.conf:/etc/nginx/nginx.conf:cached
+    depends_on:
+      - movies-api-php
+      - movies-api-mysql
+
+  movies-api-mysql:
+    image: mysql:latest
+    container_name: movies-api-mysql
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+    tty: true
+    ports:
+      - "4300:3306"
+    volumes:
+      - ./docker/dev/mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: movies-api
+      MYSQL_USER: root
+      MYSQL_PASSWORD: GI^4rr8tpt23x3
+      MYSQL_ROOT_PASSWORD: GI^4rr8tpt23x3
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
