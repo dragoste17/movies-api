@@ -43,6 +43,6 @@ class User extends Authenticatable
 
     public function favorites()
     {
-        return $this->belongsToMany(Favorite::class);
+        return $this->belongsToMany(Favorite::class, 'favorites', 'user_id', 'movie_id');
     }
 }
