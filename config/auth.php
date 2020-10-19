@@ -114,4 +114,15 @@ return [
 
     'password_timeout' => 10800,
 
+    /*
+    |--------------------------------------------------------------------------
+    | API Key for Requests
+    |--------------------------------------------------------------------------
+    |
+    | Here the api key to be used for requests in which the user is not
+    | logged in is defined.
+    |
+    */
+    'api_key' => env('API_KEY', 'e3miDEbMi8ri6MKG2wAI')
+
 ];
