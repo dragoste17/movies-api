@@ -17,14 +17,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware([VerifyApiKey::class])->prefix('movies')->group(function () {
+Route::middleware([VerifyApiKey::class])->prefix('internal/movies')->group(function () {
     Route::get('/', [MovieController::class, 'index']);
     Route::get('/{movie}', [MovieController::class, 'show']);
 });
 
-Route::middleware('auth:api')->group(function () {
+// Route::middleware('auth:api')->group(function () {
     Route::get('/favorites', [FavoriteController::class, 'index']);
     Route::post('/favorite/{movie}', [FavoriteController::class, 'store']);
     Route::get('/movies', [ClientMovieController::class, 'index']);
     Route::get('/movie/(movieId)', [ClientMovieController::class, 'show']);
-});
+// });
