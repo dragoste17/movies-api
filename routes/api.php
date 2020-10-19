@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\Client\ClientMovieController;
+use App\Http\Controllers\Client\FavoriteController;
 use App\Http\Controllers\MovieController;
 use App\Http\Middleware\VerifyApiKey;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,11 +17,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::middleware([VerifyApiKey::class])->prefix('movies')->group(function () {
     Route::get('/', [MovieController::class, 'index']);
     Route::get('/{movie}', [MovieController::class, 'show']);
+});
+
+Route::middleware('auth:api')->group(function () {
+    Route::get('/favorites', [FavoriteController::class, 'index']);
+    Route::post('/favorite/{movie}', [FavoriteController::class, 'store']);
+    Route::get('/movies', [ClientMovieController::class, 'index']);
+    Route::get('/movie/(movie)', [ClientMovieController::class, 'index']);
 });
