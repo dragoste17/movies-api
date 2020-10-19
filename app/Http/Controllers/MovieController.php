@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 
 class MovieController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Movie::all();
+        $matchingMovies = Movie::where('name', 'LIKE', '%' . $request->searchQuery . '%')
+            ->get();
+        return $matchingMovies;
     }
 
     public function show(Movie $movie)
