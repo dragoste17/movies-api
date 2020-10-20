@@ -13,12 +13,15 @@ class ClientMovieController extends Controller
     public function index(Request $request)
     {
         $response = $this->getMatchingMovies($request->search);
-        if ($response->ok()) {
+        if ($this->isAtLeastOneMovieMatched($response)) {
             $matchingMovies = $response->json();
             return $matchingMovies;
         }
         $popularMovies = $this->getPopularMovies();
-        return $popularMovies;
+        return response()->json([
+            'searchedMovies' => 'Not found',
+            'popularMovies' => $popularMovies,
+        ]);
     }
 
     private function getMatchingMovies($searchQuery)
@@ -27,6 +30,11 @@ class ClientMovieController extends Controller
             'apiKey' => config('auth.api_key'),
             'searchQuery' => $searchQuery
         ]);
+    }
+
+    private function isAtLeastOneMovieMatched($response)
+    {
+        return $response->ok() && !empty($response->json());
     }
 
     private function getPopularMovies()
