@@ -26,7 +26,9 @@ For manual testing of Internal API try the following endpoints:
 
 ## Automated Feature Testing
 
-For feature testing, a separate db is used so as not to interfere with the original db
+For feature testing, a separate db is used so as not to interfere with the original db.
+The database used for the internal api calls is the mysql one. Only for Client Users,
+an in-memory sqlite db is used.
 
 -   Attach a shell to the `movies-api-php` container or use the previous one and run
     -   `php artisan test`
