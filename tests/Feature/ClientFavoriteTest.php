@@ -47,6 +47,14 @@ class ClientFavoriteTest extends TestCase
         return $user;
     }
 
+    public function testFavoritesEmptyList()
+    {
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->get('/api/favorites');
+        $response->assertStatus(200)
+            ->assertJson([]);
+    }
+
     public function testFavoritesStore()
     {
         $movie = Movie::factory()->create();
