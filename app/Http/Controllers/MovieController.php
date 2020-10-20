@@ -9,7 +9,7 @@ class MovieController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->isFetchById === 'true') {
+        if ($request->movieIds) {
             return $this->fetchMoviesById($request->movieIds);
         }
         $matchingMovies = $this->fetchMoviesBySearchQuery($request->searchQuery);

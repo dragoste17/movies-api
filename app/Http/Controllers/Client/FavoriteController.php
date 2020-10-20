@@ -25,7 +25,6 @@ class FavoriteController extends Controller
     {
         $respose = Http::get('http://movies-api-nginx/api/internal/movies', [
             'apiKey' => config('auth.api_key'),
-            'isFetchById' => 'true',
             'movieIds' => $ids,
         ]);
         return $respose->json();
