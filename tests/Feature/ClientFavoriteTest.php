@@ -61,5 +61,9 @@ class ClientFavoriteTest extends TestCase
         $user = User::factory()->create();
         $response = $this->actingAs($user)->post('/api/favorite/' . $movie->id);
         $response->assertStatus(200);
+        $this->assertDatabaseHas('favorites', [
+            'user_id' => $user->id,
+            'movie_id' => $movie->id,
+        ]);
     }
 }
