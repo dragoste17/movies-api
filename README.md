@@ -20,8 +20,9 @@ Both the Client API and the In-house (internal) API are housed in the same proje
 
 For manual testing of Internal API try the following endpoints:
 
--   http://localhost:8000/api/movies?apiKey=e3miDEbMi8ri6MKG2wAI&searchQuery=si
--   http://localhost:8000/api/movies/2?apiKey=e3miDEbMi8ri6MKG2wAI
+-   http://localhost:8000/api/internal/movies?apiKey=e3miDEbMi8ri6MKG2wAI&searchQuery=si
+-   http://localhost:8000/api/internal/movies/2?apiKey=e3miDEbMi8ri6MKG2wAI
+-   http://localhost:8000/api/internal/movies?apiKey=e3miDEbMi8ri6MKG2wAI&movieIds%5B0%5D=8&movieIds%5B1%5D=13&movieIds%5B2%5D=17&movieIds%5B3%5D=20&movieIds%5B4%5D=34&movieIds%5B5%5D=35&movieIds%5B6%5D=56&movieIds%5B7%5D=58&movieIds%5B8%5D=92&movieIds%5B9%5D=95
 
 ## Automated Feature Testing
 
