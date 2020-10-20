@@ -32,3 +32,33 @@ an in-memory sqlite db is used.
 
 -   Attach a shell to the `movies-api-php` container or use the previous one and run
     -   `php artisan test`
+
+## Design and Assumptions
+
+We have created the following tables
+
+-   `movies`: to store the list of movies consumed only by the in-house API
+-   `users`: to store the list of users of the client
+-   `favorites`: to store the list of movies favorited by a user
+-   `search_frequencies`: to store the list of searches and their frequency
+
+There are multiple ways to define popularity of a movie.
+One would be to scrape the net for references in recent news or to fetch popularity ratings from IMDB or Rotten Tomatoes.
+But for simplicity we will assume that popular movies are the movies which are searched for the most.
+This will be stored in the `search_frequencies` table.
+
+The search for the movies is assumed to be based only on the name of the movie for simplicity.
+
+We are using the MVC pattern with a MySQL database.
+
+The API endpoints for the in-house API are hosted on a slightly modified route `/api/internal/movies` to avoid clashes in naming with the client API.
+Both the endpoints are exposed as requested in the task. The `apiKey` has a default value or may be set via the `API_KEY` variable in the `.env`.
+Additionally, a route to expose popular movies is created based on the search frequencies.
+
+The client API never interacts with the `movies` database directly. It only uses the endpoints exposed by the in-house API.
+The `users` and `favorites` tables are the only ones used by the client API.
+The functionalities to fetch favorite movies is implemented on the `/api/v1/favorites` and to favorite a movie is on `/api/v1/favorite/:id` routes.
+The functionality to search for movies is implemented on `/api/v1/movies?search={query}` and get details is on `/api/v1/movie/:id` route.
+
+The client APIs have been versioned to ensure accomodation of future changes in the payload if requested by the client.
+The client APIs have also been put under the auth middleware to ensure that no unauthenticated requests are made.
