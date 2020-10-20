@@ -1,6 +1,6 @@
 ## Running App for Locally
 
-The API is based on Laravel.
+The API is based on Laravel and MySQL.
 For running the app locally, Docker is used and hence needs to be installed along with Docker Compose.
 Ports 8000 and 4300 should be free on the local or can be changed in the `docker-compose.yml`.
 The `.env.example` file has already been filled with DB connection details for convenience.
@@ -8,13 +8,12 @@ Both the Client API and the In-house (internal) API are housed in the same proje
 
 -   Clone repo: `git clone https://github.com/dragoste17/movies-api.git`
 -   Run `cd movies-api`
--   Attach a shell to the `movies-api-php` container and run the following commands in that shell
+-   Run `docker-compose up -d`
+-   Attach a shell to the `movies-api-php` container by using `docker exec -it {containerId} sh` and run the following commands in that shell
     -   `composer install`
     -   `cp .env.example .env`
     -   `php artisan key:generate`
--   Run `docker-compose up -d` in a separate terminal
--   Again attach a shell to the `movies-api-php` container or use the previous one and run
-    -   `php artisan migrate:fresh --seed`
+    -   `php artisan migrate:fresh --seed` (This should be run after docker has finished setting up the database)
 
 ## Manual Testing
 
@@ -24,13 +23,16 @@ For manual testing of Internal API try the following endpoints:
 -   http://localhost:8000/api/internal/movies/2?apiKey=e3miDEbMi8ri6MKG2wAI
 -   http://localhost:8000/api/internal/movies?apiKey=e3miDEbMi8ri6MKG2wAI&movieIds%5B0%5D=8&movieIds%5B1%5D=13&movieIds%5B2%5D=17&movieIds%5B3%5D=20&movieIds%5B4%5D=34&movieIds%5B5%5D=35&movieIds%5B6%5D=56&movieIds%5B7%5D=58&movieIds%5B8%5D=92&movieIds%5B9%5D=95
 
+Manual testing of the Client APIs is more involved as it is behind authentication and no endpoint has been made to save authenticate.
+Test cases have been written to ensure the endpoints work.
+
 ## Automated Feature Testing
 
 For feature testing, a separate db is used so as not to interfere with the original db.
 The database used for the internal api calls is the mysql one. Only for Client Users,
 an in-memory sqlite db is used.
 
--   Attach a shell to the `movies-api-php` container or use the previous one and run
+-   Attach a shell to the `movies-api-php` container and run
     -   `php artisan test`
 
 ## Design and Assumptions
