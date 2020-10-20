@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware([VerifyApiKey::class])->prefix('internal/movies')->group(function () {
     Route::get('/', [MovieController::class, 'index']);
+    Route::get('/popular', [MovieController::class, 'getPopularMovies']);
+    // Ordering matters as wildcard path is used
     Route::get('/{movie}', [MovieController::class, 'show']);
 });
 

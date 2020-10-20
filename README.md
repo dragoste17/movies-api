@@ -22,6 +22,9 @@ For manual testing of Internal API try the following endpoints:
 -   http://localhost:8000/api/internal/movies?apiKey=e3miDEbMi8ri6MKG2wAI&searchQuery=si
 -   http://localhost:8000/api/internal/movies/2?apiKey=e3miDEbMi8ri6MKG2wAI
 -   http://localhost:8000/api/internal/movies?apiKey=e3miDEbMi8ri6MKG2wAI&movieIds%5B0%5D=8&movieIds%5B1%5D=13&movieIds%5B2%5D=17&movieIds%5B3%5D=20&movieIds%5B4%5D=34&movieIds%5B5%5D=35&movieIds%5B6%5D=56&movieIds%5B7%5D=58&movieIds%5B8%5D=92&movieIds%5B9%5D=95
+-   http://localhost:8000/api/internal/movies/popular?apiKey=e3miDEbMi8ri6MKG2wAI
+
+Default API Key has been used, will need to be changed if updated in the `.env` file.
 
 Manual testing of the Client APIs is more involved as it is behind authentication and no endpoint has been made to save authenticate.
 Test cases have been written to ensure the endpoints work.
@@ -29,8 +32,8 @@ Test cases have been written to ensure the endpoints work.
 ## Automated Feature Testing
 
 For feature testing, a separate db is used so as not to interfere with the original db.
-The database used for the internal api calls is the mysql one. Only for Client Users,
-an in-memory sqlite db is used.
+The database used for the internal api calls is the mysql one due to Laravel's design.
+Only for Client API and Unit Testing an in-memory sqlite db is used.
 
 -   Attach a shell to the `movies-api-php` container and run
     -   `php artisan test`

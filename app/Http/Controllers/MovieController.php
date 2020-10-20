@@ -44,4 +44,9 @@ class MovieController extends Controller
     {
         return $movie;
     }
+
+    public function getPopularMovies()
+    {
+        return Movie::getPopular();
+    }
 }
