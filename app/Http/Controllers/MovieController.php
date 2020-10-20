@@ -9,9 +9,23 @@ class MovieController extends Controller
 {
     public function index(Request $request)
     {
-        $matchingMovies = Movie::where('name', 'LIKE', '%' . $request->searchQuery . '%')
-            ->get();
+        if ($request->isFetchById === 'true') {
+            return $this->fetchMoviesById($request->movieIds);
+        }
+        $matchingMovies = $this->fetchMoviesBySearchQuery($request->searchQuery);
         return $matchingMovies;
+    }
+
+    private function fetchMoviesById($ids)
+    {
+        return Movie::whereIn('id', $ids)
+            ->get();
+    }
+
+    private function fetchMoviesBySearchQuery($query)
+    {
+        return Movie::where('name', 'LIKE', '%' . $query . '%')
+            ->get();
     }
 
     public function show(Movie $movie)
