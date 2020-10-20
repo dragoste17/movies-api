@@ -56,6 +56,7 @@ We are using the MVC pattern with a MySQL database.
 The API endpoints for the in-house API are hosted on a slightly modified route `/api/internal/movies` to avoid clashes in naming with the client API.
 Both the endpoints are exposed as requested in the task. The `apiKey` has a default value or may be set via the `API_KEY` variable in the `.env`.
 Additionally, a route to expose popular movies is created based on the search frequencies.
+The searches are assumed to be case insensitive for convenience of the user.
 
 The client API never interacts with the `movies` database directly. It only uses the endpoints exposed by the in-house API.
 The `users` and `favorites` tables are the only ones used by the client API.

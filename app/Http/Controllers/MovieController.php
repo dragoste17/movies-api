@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Movie;
+use App\Models\SearchFrequency;
 use Illuminate\Http\Request;
 
 class MovieController extends Controller
@@ -13,6 +14,7 @@ class MovieController extends Controller
             return $this->fetchMoviesById($request->movieIds);
         }
         $matchingMovies = $this->fetchMoviesBySearchQuery($request->searchQuery);
+        $this->updateSearchFrequency($request->searchQuery);
         return $matchingMovies;
     }
 
@@ -26,6 +28,16 @@ class MovieController extends Controller
     {
         return Movie::where('name', 'LIKE', '%' . $query . '%')
             ->get();
+    }
+
+    private function updateSearchFrequency($query)
+    {
+        $searchFrequency = SearchFrequency::firstOrCreate(
+            ['query' => $query],
+            ['count' => 0]
+        );
+        $searchFrequency->count += 1;
+        $searchFrequency->save();
     }
 
     public function show(Movie $movie)
