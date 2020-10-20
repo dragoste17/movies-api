@@ -24,9 +24,9 @@ Route::middleware([VerifyApiKey::class])->prefix('internal/movies')->group(funct
     Route::get('/{movie}', [MovieController::class, 'show']);
 });
 
-// Route::middleware('auth:api')->group(function () {
+Route::prefix('v1')->group(function () {
     Route::get('/favorites', [FavoriteController::class, 'index']);
     Route::post('/favorite/{movieId}', [FavoriteController::class, 'store']);
     Route::get('/movies', [ClientMovieController::class, 'index']);
     Route::get('/movie/{movieId}', [ClientMovieController::class, 'show']);
-// });
+});

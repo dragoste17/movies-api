@@ -32,7 +32,7 @@ class ClientFavoriteTest extends TestCase
     public function testFavoritesList()
     {
         $user = $this->createUserWithFavorites();
-        $response = $this->actingAs($user)->get('/api/favorites');
+        $response = $this->actingAs($user)->get('api/' . config('app.api_latest') . '/favorites');
         $response->assertStatus(200)
             ->assertJsonCount(self::FAVORITES_NUM);
     }
@@ -40,7 +40,7 @@ class ClientFavoriteTest extends TestCase
     public function testFavoritesEmptyList()
     {
         $user = User::factory()->create();
-        $response = $this->actingAs($user)->get('/api/favorites');
+        $response = $this->actingAs($user)->get('api/' . config('app.api_latest') . '/favorites');
         $response->assertStatus(200)
             ->assertJson([]);
     }
@@ -54,7 +54,7 @@ class ClientFavoriteTest extends TestCase
          */
         $user = $this->createUserWithFavorites();
         $this->favoriteNonExistingMovie($user);
-        $response = $this->actingAs($user)->get('/api/favorites');
+        $response = $this->actingAs($user)->get('api/' . config('app.api_latest') . '/favorites');
         $response->assertStatus(200)
             ->assertJsonCount(self::FAVORITES_NUM);
     }
@@ -84,7 +84,7 @@ class ClientFavoriteTest extends TestCase
     {
         $movie = Movie::factory()->create();
         $user = User::factory()->create();
-        $response = $this->actingAs($user)->post('/api/favorite/' . $movie->id);
+        $response = $this->actingAs($user)->post('api/' . config('app.api_latest') . '/favorite/' . $movie->id);
         $response->assertStatus(200);
         $this->assertDatabaseHas('favorites', [
             'user_id' => $user->id,
