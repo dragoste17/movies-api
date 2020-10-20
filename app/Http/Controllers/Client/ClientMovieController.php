@@ -12,8 +12,9 @@ class ClientMovieController extends Controller
 {
     public function index(Request $request)
     {
-        $matchingMovies = $this->getMatchingMovies($request->search);
-        if (!empty($matchingMovies)) {
+        $response = $this->getMatchingMovies($request->search);
+        if ($response->ok()) {
+            $matchingMovies = $response->json();
             return $matchingMovies;
         }
         $popularMovies = $this->getPopularMovies();
@@ -28,13 +29,19 @@ class ClientMovieController extends Controller
         ]);
     }
 
+    private function getPopularMovies()
+    {
+        return [Movie::first()];
+    }
+
     public function show($movieId)
     {
-        $movie = $this->getMovieDetails($movieId);
-        if (!$movie) {
+        $response = $this->getMovieDetails($movieId);
+        if ($response->failed()) {
             return response('Movie does not exist.', Response::HTTP_NOT_FOUND);
         }
-        return $movie;
+        $movieDetails = $response->json();
+        return $movieDetails;
     }
 
     private function getMovieDetails($movieId)
