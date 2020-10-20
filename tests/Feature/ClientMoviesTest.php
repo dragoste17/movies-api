@@ -56,9 +56,9 @@ class ClientMoviesTest extends TestCase
         $user = User::factory()->create();
         $response = $this->actingAs($user)->get('/api/movies?search=1234');
         $response->assertStatus(200)
-         ->assertJsonFragment([
-             'searchedMovies' => 'Not found'
-         ]);
+            ->assertJsonFragment([
+                'searchedMovies' => 'Not found'
+            ]);
     }
 
     public function testMoviesSearchNoSearchQuery()

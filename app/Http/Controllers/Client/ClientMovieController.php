@@ -39,7 +39,9 @@ class ClientMovieController extends Controller
 
     private function getPopularMovies()
     {
-        return [Movie::first()];
+        return Http::get('http://movies-api-nginx/api/internal/movies/popular', [
+            'apiKey' => config('auth.api_key'),
+        ]);
     }
 
     public function show($movieId)

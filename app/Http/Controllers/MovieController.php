@@ -32,6 +32,9 @@ class MovieController extends Controller
 
     private function updateSearchFrequency($query)
     {
+        if (!$query) {
+            return;
+        }
         $searchFrequency = SearchFrequency::firstOrCreate(
             ['query' => $query],
             ['count' => 0]
