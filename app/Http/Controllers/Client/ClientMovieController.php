@@ -17,10 +17,15 @@ class ClientMovieController extends Controller
             $matchingMovies = $response->json();
             return $matchingMovies;
         }
-        $popularMovies = $this->getPopularMovies();
+        $popularMoviesResponse = $this->getPopularMovies();
+        if ($popularMoviesResponse->failed()) {
+            return response()->json([
+                'error' => 'Could not retrieve data.'
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
         return response()->json([
             'searchedMovies' => 'Not found',
-            'popularMovies' => $popularMovies,
+            'popularMovies' => $popularMoviesResponse->json(),
         ]);
     }
 
@@ -48,7 +53,9 @@ class ClientMovieController extends Controller
     {
         $response = $this->getMovieDetails($movieId);
         if ($response->failed()) {
-            return response('Movie does not exist.', Response::HTTP_NOT_FOUND);
+            return response()->json([
+                'error' => 'Movie does not exist.',
+            ], Response::HTTP_NOT_FOUND);
         }
         $movieDetails = $response->json();
         return $movieDetails;

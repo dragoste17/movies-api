@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Favorite;
 use App\Models\Movie;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 
 class FavoriteController extends Controller
@@ -17,17 +18,21 @@ class FavoriteController extends Controller
             return response()->json([]);
         }
         $favoriteMovieIds = $favorites->pluck('movie_id')->toArray();
-        $favoriteMovies = $this->getMoviesById($favoriteMovieIds);
-        return $favoriteMovies;
+        $response = $this->getMoviesById($favoriteMovieIds);
+        if ($response->failed()) {
+            return response()->json([
+                'error' => 'Could not retrieve movies.'
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        return $response->json();
     }
 
     private function getMoviesById($ids)
     {
-        $respose = Http::get('http://movies-api-nginx/api/internal/movies', [
+        return Http::get('http://movies-api-nginx/api/internal/movies', [
             'apiKey' => config('auth.api_key'),
             'movieIds' => $ids,
         ]);
-        return $respose->json();
     }
 
     public function store(Request $request, $movieId)
