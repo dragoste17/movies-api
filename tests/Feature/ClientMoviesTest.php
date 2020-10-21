@@ -34,7 +34,7 @@ class ClientMoviesTest extends TestCase
     public function testMoviesSearchPositiveMatch()
     {
         $user = User::factory()->create();
-        $response = $this->actingAs($user)->get('api/' . config('app.api_latest') . '/movies?search=' . self::SEARCH);
+        $response = $this->actingAs($user, 'api')->get('api/' . config('app.api_latest') . '/movies?search=' . self::SEARCH);
         $response->assertStatus(200)
             ->assertJsonCount($this->getMatchingMoviesInDbNum())
             ->assertJsonMissing([
@@ -54,7 +54,7 @@ class ClientMoviesTest extends TestCase
     public function testMoviesSearchNoMatch()
     {
         $user = User::factory()->create();
-        $response = $this->actingAs($user)->get('api/' . config('app.api_latest') . '/movies?search=1234');
+        $response = $this->actingAs($user, 'api')->get('api/' . config('app.api_latest') . '/movies?search=1234');
         $response->assertStatus(200)
             ->assertJsonFragment([
                 'searchedMovies' => 'Not found'
@@ -64,7 +64,7 @@ class ClientMoviesTest extends TestCase
     public function testMoviesSearchNoSearchQuery()
     {
         $user = User::factory()->create();
-        $response = $this->actingAs($user)->get('api/' . config('app.api_latest') . '/movies');
+        $response = $this->actingAs($user, 'api')->get('api/' . config('app.api_latest') . '/movies');
         $response->assertStatus(200)
             ->assertJsonCount(Movie::count())
             ->assertJsonMissing([
@@ -75,7 +75,7 @@ class ClientMoviesTest extends TestCase
     public function testMovieDetails()
     {
         $user = User::factory()->create();
-        $response = $this->actingAs($user)->get('api/' . config('app.api_latest') . '/movie/' . self::MOVIE_ID);
+        $response = $this->actingAs($user, 'api')->get('api/' . config('app.api_latest') . '/movie/' . self::MOVIE_ID);
         $response->assertStatus(200)
             ->assertJsonFragment([
                 'id' => 10
@@ -85,7 +85,7 @@ class ClientMoviesTest extends TestCase
     public function testNonExistingMovieDetails()
     {
         $user = User::factory()->create();
-        $response = $this->actingAs($user)->get('api/' . config('app.api_latest') . '/movie/231');
+        $response = $this->actingAs($user, 'api')->get('api/' . config('app.api_latest') . '/movie/231');
         $response->assertStatus(404);
     }
 }
