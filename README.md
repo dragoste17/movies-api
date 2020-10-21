@@ -17,7 +17,7 @@ Both the Client API and the In-house (internal) API are housed in the same proje
 
 ## API Consumption
 
-Link for Postman Collection: https://www.getpostman.com/collections/91bc6563c37af1ec8f78
+Link for Postman Documentation: https://documenter.getpostman.com/view/1674580/TVYC9ey4
 
 For manual testing of Internal API try the following endpoints:
 
