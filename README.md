@@ -15,7 +15,9 @@ Both the Client API and the In-house (internal) API are housed in the same proje
     -   `php artisan key:generate`
     -   `php artisan migrate:fresh --seed` (This should be run after docker has finished setting up the database)
 
-## Manual Testing
+## API Consumption
+
+Link for Postman Collection: https://www.getpostman.com/collections/91bc6563c37af1ec8f78
 
 For manual testing of Internal API try the following endpoints:
 
@@ -26,8 +28,13 @@ For manual testing of Internal API try the following endpoints:
 
 Default API Key has been used, will need to be changed if updated in the `.env` file.
 
-Manual testing of the Client APIs is more involved as it is behind authentication and no endpoint has been made to save authenticate.
-Test cases have been written to ensure the endpoints work.
+For manual testing of the Client APIs, the `api_token` of the user needs to be added as a param.
+The `api_token` can be viewed in the db after seeding and should be replaced below.
+
+-   http://localhost:8000/api/v1/favorites?api_token=DmGIGjiJMtW2DHAqDiipKEU4Ql03t6ViRlhNECdTX26IPcIgeQsAFLUIfSFRsOS4K2Www9v4qmc5Cszs
+-   POST http://localhost:8000/api/v1/favorite/1?api_token=DmGIGjiJMtW2DHAqDiipKEU4Ql03t6ViRlhNECdTX26IPcIgeQsAFLUIfSFRsOS4K2Www9v4qmc5Cszs
+-   http://localhost:8000/api/v1/movies?search=si&api_token=DmGIGjiJMtW2DHAqDiipKEU4Ql03t6ViRlhNECdTX26IPcIgeQsAFLUIfSFRsOS4K2Www9v4qmc5Cszs
+-   http://localhost:8000/api/v1/movie/2?api_token=DmGIGjiJMtW2DHAqDiipKEU4Ql03t6ViRlhNECdTX26IPcIgeQsAFLUIfSFRsOS4K2Www9v4qmc5Cszs
 
 ## Automated Feature Testing
 
